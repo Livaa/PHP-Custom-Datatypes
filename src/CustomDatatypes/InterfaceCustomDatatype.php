@@ -23,33 +23,23 @@ interface InterfaceCustomDatatype
      
      
     /**
-     * - Build a new CustomDatatypeException from the given error & the debug_trace() details.
-     * - Log the exception on the logs of the server ($this->logError()).
-     * - Throws the exception if $this->throw_exceptions is true.    
-     * - Push the exception into $this->exceptions[] if $this->throw_exceptions is false.
+     * Must throw a CustomDatatypeException if $this->throw_exceptions is true.    
+     * Must push the exception into $this->exceptions[] if $this->throw_exceptions is false.
      * 
-     * @param string $error
+     * @param string $error The error string message.
+     *                      It is recommanded to use a keywords strategy:
+     *                      eg: "email_invalid", "authentication_failed", ...
+     *                      It will make the frontend life easier.
+     *                      
      * @throws CustomDataTypeException
      * 
      * @return void
      */
     function error(string $error): void;
-       
-        
-    /**
-     * Write the given exception details into the server logs.  
-     * If for some reason you are not using the logs of the server, you'll need
-     * to overwrite this method.
-     * 
-     * @param string $error
-     * 
-     * @return void
-     */
-    function logError(CustomDataTypeException $error): void;
-    
+                      
 
     /**
-     * Return true if they are errors, false otherwise.
+     * Must return true if they are errors, false otherwise.
      * 
      * @return bool
      */
@@ -57,8 +47,8 @@ interface InterfaceCustomDatatype
     
     
     /**
-     * Return the value as a string.
-     * Arrays are converted to JSON strings.
+     * Must return the encapsulated value as a string.
+     * Arrays must be converted to JSON strings.
      * 
      * @return string
      */
