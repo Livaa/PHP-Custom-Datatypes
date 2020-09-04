@@ -19,22 +19,19 @@ class CustomDatatypesTest extends TestCase
                 
         $this->assertSame("sangoku@namek.com", $email->getValue());
         
-        
-        // --- Check exception throw
-        $this->expectException(CustomDatatypeException::class);
-        
-        $email = new Email("sangoku@namek");
+ 
                      
         
         // --- Check invalid email + disable exception & read error
+        // As it is called with a false argument, it will callect the exceptions
+        // rather than throwing them.  2 exceptions are waited
         $email = new Email("", false);
          
         $this->assertTrue($email->hasErrors());        
-        $this->assertCount(1, $email->getErrors());
+        $this->assertCount(2, $email->getErrors());
         
-        $exception = $email->getErrors()[0];
-        
-        $this->assertSame("invalid_email", $exception->getMessage());
+        $this->assertSame("empty_email", $email->getErrors()[0]->getMessage());
+        $this->assertSame("invalid_email", $email->getErrors()[1]->getMessage());
     }
     
     

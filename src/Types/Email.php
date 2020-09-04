@@ -14,7 +14,9 @@ extends CustomDatatype
         $this->value = trim(strtolower($this->value));
         
         //--- verifications
-        if($this->value === ""){
+        error_log(strlen($this->value));
+        
+        if(strlen($this->value) === 0){
             
             $this->error("empty_email");
         }
