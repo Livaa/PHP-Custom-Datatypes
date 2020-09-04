@@ -2,8 +2,8 @@
 
 namespace Livaa\CustomDatatypes;
 
-abstract class CustomDatatype
-//@todo: implements      InterfaceCustomDatatype
+abstract class  CustomDatatype
+implements      InterfaceCustomDatatype
 {   
     
     protected
