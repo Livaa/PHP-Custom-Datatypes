@@ -42,23 +42,8 @@ $email = isset($_POST['email']) ? new EmailAddress($_POST["email"])
 (new NewsletterManager)->subscribe($email);
 ```
 
-This is what the User an NewsletterManager class would look like :
+This is what the User and the NewsletterManager classes would look like :
 
-```php
-use 
-    Foo\Types\EmailAddress,
-    Foo\Types\PrimaryKey;
-
-class User
-{        
-    function __construct(PrimaryKey $id){ 
-    
-        // $res = ... some SQL to get the email
-        
-        $this->email = new EmailAddress($sql_res["email"]);
-    }
-}
-```
 ```php
 
 use Foo\Types\EmailAddress;
@@ -83,7 +68,6 @@ echo $email->getValue(); // output: sangoku@namek.com
 ```
 
 Actually, a custom datatype will behave as a string when needed thanks to the ____toString()__ method.
-That may help
 
 ```php
 $email = new EmailAddress("sangoku@namek.com");
@@ -114,13 +98,12 @@ extends CustomDatatype
     
     /* 
      * DON'T DO THAT
-     *
-     * If you feel the need to do so, you need something like a Factory:
+     * You better use something like a Factory:
      * eg: 
      * $rgb  = new Rgb([174, 189, 216]);
      * $rgba = (new ColorsFactory)->rgbToRgba($rgb);
      */  
-    function toRgba(){
+    function toRgba(){ // just don't
         
         //add a 4th channel
         $this->value[] = 1;
@@ -133,31 +116,71 @@ extends CustomDatatype
 Error handling
 --------------
 
-A custom datatype can be called with the second parameter to false (bool $thow_exceptions)
+Call $this->error("error_message") inside the validate() method in case of error, a CustomDatatypeException will be throw by default.
+If the datatype is called with the second parameter ($throw_exceptions) to false , the exception won't be thrown but collected and accessible thru $this->getErrors();
 
 ```php
-//Will throw a CustomDatatypeException
-$email = new EmailAddress("www.github.com"); 
+$email = new EmailAddress("www.github.com", false); //$throw_exceptions on false
 
-//The exception is collected and accessible thru $this->getErrors() but not thrown
-$email = new Email("www.github.com", false); 
-When writing your datatypes, call $this->error("error_message") in case of error
+print_r($email->getErrors());
+//Array([0] => error_message)
+```
+Note that when $throw_exceptions is false, $this->error() won't stop the execution.
+
+So you may collect multiple exceptions, depending how you did code the validation process.
+This example will collect multiple exceptions if an empty string is given : 
 ```php
-namespace Foo\Types;
 
 use Livaa\CustomDatatypes\CustomDatatype;
 
-class   Login
+class   EmailAddress
 extends CustomDatatype
 {
     function validate(): void{
     
         $this->value = trim($this->value);
         
-        if(strlen($this->value) < 5){
-        
-            $this->error("login_too_short");
+        //this one will be collected
+        if( strlen($this->value) === 0 ){
+            
+            $this->error("email_is_empty");
+        }                
+
+        //this one too
+        if ( !filter_var($value, FILTER_VALIDATE_EMAIL) ){
+            
+           $this->error("email_is_empty");
         }
+    }
+}
+```
+
+While this example will only collect one
+
+```php
+
+use Livaa\CustomDatatypes\CustomDatatype;
+
+class   EmailAddress
+extends CustomDatatype
+{
+    function validate(): void{
+    
+        $this->value = trim($this->value);
+        
+        //this one will be collected
+        if( strlen($this->value) === 0 ){
+            
+            $this->error("email_is_empty");
+            
+        }else{                
+
+            //this one won't
+            if ( !filter_var($value, FILTER_VALIDATE_EMAIL) ){
+            
+                $this->error("email_is_malformed");
+            }
+       }
     }
 }
 ```
