@@ -7,7 +7,7 @@ PHP Custom Datatypes
 - Data integrity, data integrity and data integrity.
 - Force the developper to make a strong use of type hinting with all the benefits that come with it.
 
-The main idea:
+The main idea
 -----------------
 Wrap every data into their own relative object.
 An age, an url, a city, a login, a height, a width, an rgb color, an id, ... type them all !
