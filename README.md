@@ -11,7 +11,7 @@ PHP Custom Datatypes
 The main idea:
 
 Wrap every data into their own relative object.
-An email address shouldn't be a string but an EmailAddress object. An Ip adress shoudn't be a string but an IpAdress object.
+An email address shouldn't be a string but an EmailAddress object. 
 An age, an url, a city, a login, a height, a width, an rgb color ... type them all !
 
 
