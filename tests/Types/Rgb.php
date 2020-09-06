@@ -38,7 +38,8 @@ extends CustomDatatype
     /* KEEP IT SIMPLE.
      *      
      * This method is a bad idea.
-     * A customType is just supposed to verify and represent the data it encapsulates.
+     * A CustomDatatype is object is just supposed to verify and represent 
+     * the data it does encapsulates.
      * It should not be doing anything else !          
      * If you feel the need to do something in this mood,    
      * you probably need something like a factory:

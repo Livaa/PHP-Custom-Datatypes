@@ -4,7 +4,7 @@ namespace Foo\Bar;
 
 use Livaa\CustomDatatypes\CustomDatatype;
 
-class   Email
+class   EmailAddress
 extends CustomDatatype
 {
 
