@@ -67,12 +67,23 @@ $email  = new EmailAddress("sangoku@namek.com");
 echo $email->getValue(); // output: sangoku@namek.com
 ```
 
-Actually, a custom datatype will behave as a string when needed thanks to the ____toString()__ method.
-
+Thanks to the ____toString()__ method, a custom datatype can behave as a string when needed. 
+(It is important to understand that PDO will trigger it, so you can send directly your datatypes objects without the extra getValue() call inside your prepared requests.
+it does help to make the code a bit cleaner)
 ```php
-$email = new EmailAddress("sangoku@namek.com");
+$email  = new EmailAddress("sangoku@namek.com");
 
-echo $email; // output: sangoku@namek.com
+echo $email; // sangoku@namek.com, __toString() was triggered
+is_string($email); // false, is an EmailAddress object
+is_string($email->getValue()); // true
+
+$age = new Age(34); 
+
+echo $age; // 34 as string because echo triggered __toString()
+echo "his age is".$age; // his age is 34. Concatenation triggered __toString()
+is_string($age); //false, is an Age object
+is_int($age); //false, same reason
+is_int($age->getValue()); // true
 
 // But don't be confuse !
 echo $email == "sangoku@namek.com" ? true : false; // -> true
@@ -80,6 +91,7 @@ echo $email === "sangoku@namek.com" ? true : false; // -> false
 echo $email->getValue() == "sangoku@namek.com" ? true : false; // -> true
 echo $email->getValue() === "sangoku@namek.com" ? true : false; // -> true
 ```
+# If you found this a bit mind boggling, just remember that calling getValue() is the right way to do.
 
 Keep it simple, avoid writing more methods into your datatypes.
 They are just supposed to verify and represent the value it does encapsulate, nothing else.        
