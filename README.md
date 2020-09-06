@@ -42,7 +42,7 @@ $email = isset($_POST['email']) ? new EmailAddress($_POST["email"])
 (new NewsletterManager)->subscribe($email);
 ```
 
-This is what the User and the NewsletterManager classes would look like :
+This is what the NewsletterManager class would look like :
 
 ```php
 
