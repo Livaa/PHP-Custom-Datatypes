@@ -40,7 +40,7 @@ implements      InterfaceCustomDatatype
 
     
     /**
-     * It must verify and normalize this->value.
+     * It must verify and normalize $this->value.
      * Invoke $this->error("error_message") in case of error.
      * See examples for more details.
      * 
@@ -56,7 +56,7 @@ implements      InterfaceCustomDatatype
      * - Push the exception into $this->exceptions[] if $this->throw_exceptions is false.
      * 
      * @param string $error
-     * @throws CustomDataTypeException
+     * @throws CustomDatatypeException
      * 
      * @return void
      */
@@ -88,10 +88,10 @@ implements      InterfaceCustomDatatype
      * 
      * @return void
      */
-    function logError(CustomDataTypeException $error): void{          
+    function logError(CustomDatatypeException $error): void{          
 
-        error_log("CustomDataTypes error: ".$error->getMessage()." at ".$error->getFile()." line ".$error->getLine());
-        error_log("CustomDataTypes value: ".$this->__toString());
+        error_log("Custom datatype error: ".$error->getMessage()." at ".$error->getFile()." line ".$error->getLine());
+        error_log("Custom datatype value was: (".gettype($this->getValue()).") ".$this->__toString());
     }
     
 

@@ -29,9 +29,9 @@ interface InterfaceCustomDatatype
      * @param string $error The error string message.
      *                      It is recommanded to use a keywords strategy:
      *                      eg: "email_invalid", "authentication_failed", ...
-     *                      It will make the frontend life easier.
+     *                      So the frontend can handle errors easily.
      *                      
-     * @throws CustomDataTypeException
+     * @throws CustomDatatypeException
      * 
      * @return void
      */

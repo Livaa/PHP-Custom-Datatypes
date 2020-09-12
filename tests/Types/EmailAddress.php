@@ -19,9 +19,8 @@ extends CustomDatatype
         if(strlen($this->value) === 0){
             
             $this->error("empty_email");
-        }
-        
-        if ( !filter_var($this->value, FILTER_VALIDATE_EMAIL) ){
+        }        
+        else if ( !filter_var($this->value, FILTER_VALIDATE_EMAIL) ){
 
             $this->error("invalid_email");
         }
