@@ -149,8 +149,8 @@ catch(CustomDatatypeException $e){ // this will be triggered
 }
 
 ```
-If the datatype is called with the second parameter ($throw_exceptions) to false, the exception(s) won't be throw but collected and accessible via $this->getErrors();
-Note that in this case, the execution won't be stopped, so the validation process may be collecting multiple exceptions, that's why getErrors() is plural.
+If the datatype is called with the second parameter ($throw_exceptions) to false, the exception(s) won't be throw but collected then accessible via $this->getErrors().\
+Note that in this case, you may be collecting multiple exceptions (depends how is coded the validation process), that's why getErrors() is plural.
 ```php
 use Livaa\CustomDatatypes\CustomDatatypeException;
 
