@@ -1,7 +1,7 @@
 PHP Custom Datatypes
 -------------------
 
-- An oriented-object pattern to process the users inputs & to represent the data into your app.
+- An efficient oriented-object pattern to process the users inputs & to represent the data into your app.
 - Does avoid the duplication of your validation & normalization rules.
 - A clear view of all the data that traverse & compose your app, they are part of the app architecture !
 - Data integrity, data integrity and data integrity.
@@ -96,13 +96,13 @@ echo $email === "sangoku@namek.com" ? true : false; // -> false
 echo $email->getValue() == "sangoku@namek.com" ? true : false; // -> true
 echo $email->getValue() === "sangoku@namek.com" ? true : false; // -> true
 ```
-# If you find this a bit mind boggling, just remember that calling getValue() is the right way to do.
+If you find this a bit mind boggling, just remember that calling getValue() is the right way to do.
 
 
 Keep it simple, avoid writing more methods into your datatypes.
 They are just supposed to verify and represent the value it does encapsulate, nothing else.        
 ```php
-namespace MyApp\CustomDataTypes;
+namespace Foo\Types;
 
 use Livaa\CustomDatatypes\CustomDatatype;
 
@@ -137,6 +137,8 @@ Error handling
 Call $this->error("error_message") inside the validate() method in case of error, a CustomDatatypeException will be throw by default.
 
 ```php
+use Livaa\CustomDatatypes\CustomDatatypeException;
+
 try{
 
     $email = new EmailAddress("www.github.com");
@@ -147,12 +149,14 @@ catch(CustomDatatypeException $e){ // this will be triggered
 }
 
 ```
-If the datatype is called with the second parameter ($throw_exceptions) to false, the exception(s) won't be throw but collected and accessible thru $this->getErrors();
+If the datatype is called with the second parameter ($throw_exceptions) to false, the exception(s) won't be throw but collected and accessible via $this->getErrors();
 Note that in this case, the execution won't be stopped, so the validation process may be collecting multiple exceptions, that's why getErrors() is plural.
 ```php
+use Livaa\CustomDatatypes\CustomDatatypeException;
+
 try{
 
-    $email = new EmailAddress("www.github.com", false); //$throw_exceptions is false
+    $email = new EmailAddress("www.github.com", false); //$throw_exceptions to false
     
     if( !$email->isValid() ){
 

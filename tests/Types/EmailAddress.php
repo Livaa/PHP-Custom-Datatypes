@@ -10,19 +10,17 @@ extends CustomDatatype
 
     function validate(): void{
 
-        //--- normalization
+        //--- normalization & casting
         $this->value = trim(strtolower($this->value));
         
-        //--- verifications
-        error_log(strlen($this->value));
-        
+        //--- verifications       
         if(strlen($this->value) === 0){
             
-            $this->error("empty_email");
+            $this->error("email_is_empty");
         }        
         else if ( !filter_var($this->value, FILTER_VALIDATE_EMAIL) ){
 
-            $this->error("invalid_email");
+            $this->error("email_is_invalid");
         }
                 
     }

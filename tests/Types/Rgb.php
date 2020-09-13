@@ -15,20 +15,19 @@ extends CustomDatatype
             
             $this->error("rgb_must_be_an_array");
         }
+        // Rgb must be 3 channels
+        else if(sizeof($this->value) !== 3){
+
+            $this->error("rgb_wrong_channels_count");
+        }
+        //A channel value cannot be greater than 255
         else{
-                           
-            // rgb are 3 channels
-            if( sizeof($this->value) !== 3 ){
-
-                $this->error("rgb_out_of_range");
-            }
-
-            // checking the integrity of each channel
+            
             foreach($this->value as $channel){
 
                 if($channel > 255 || $channel < 0){
 
-                    $this->error("rgb_channel_value_invalid");
+                    $this->error("rgb_channel_value_out_of_range");
                 }
             } 
         }
