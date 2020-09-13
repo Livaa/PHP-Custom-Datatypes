@@ -34,25 +34,6 @@ extends CustomDatatype
         }
     }
     
-    
-    /* KEEP IT SIMPLE.
-     *      
-     * This method is a bad idea.
-     * A CustomDatatype is object is just supposed to verify and represent 
-     * the data it does encapsulates.
-     * It should not be doing anything else !          
-     * If you feel the need to do something in this mood,    
-     * you probably need something like a factory:
-     * 
-     * eg: (new ColorsFactory)->rgbToRgba( new Rgb([174, 189, 216]) );
-     */  
-    function toRgba(){
-        
-        //add a 4th channel
-        $this->value[] = 1;
-        
-        return $this->value;
-    }
 }
 
 

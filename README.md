@@ -52,12 +52,12 @@ class NewsletterManager
 {   
     // Type hinting makes sure the methods receive what they expect.
     // The code is more reliable.
-    function subscribe(EmailAddress $email_address){ 
+    function subscribe(EmailAddress $email_address):bool{ 
     
         // some code to save the email adress
     }
 
-    function unsubscribe(EmailAddress $email_address){
+    function unsubscribe(EmailAddress $email_address):bool{
 
         // some code to remove the email address from the db
     }
