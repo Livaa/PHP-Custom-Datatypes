@@ -14,7 +14,7 @@ An age, an url, a city, a login, a height, a width, an rgb color, an id, ... typ
 
 How to use ?
 ---------------
-To build a datatype just extends Livaa\CustomDatatypes\CustomDatatype and write the validate() method.
+To build a datatype just extend Livaa\CustomDatatypes\CustomDatatype and write the validate() method.
 
 ```php
 namespace Foo\Types;
@@ -42,7 +42,7 @@ $email = isset($_POST['email']) ? new EmailAddress($_POST["email"])
 (new NewsletterManager)->subscribe($email);
 ```
 
-This is what the NewsletterManager class would look like :
+This is what the NewsletterManager class would eventually look like :
 
 ```php
 
@@ -96,7 +96,8 @@ echo $email === "sangoku@namek.com" ? true : false; // -> false
 echo $email->getValue() == "sangoku@namek.com" ? true : false; // -> true
 echo $email->getValue() === "sangoku@namek.com" ? true : false; // -> true
 ```
-# If you found this a bit mind boggling, just remember that calling getValue() is the right way to do.
+# If you find this a bit mind boggling, just remember that calling getValue() is the right way to do.
+
 
 Keep it simple, avoid writing more methods into your datatypes.
 They are just supposed to verify and represent the value it does encapsulate, nothing else.        
@@ -134,70 +135,35 @@ Error handling
 --------------
 
 Call $this->error("error_message") inside the validate() method in case of error, a CustomDatatypeException will be throw by default.
-If the datatype is called with the second parameter ($throw_exceptions) to false , the exception won't be thrown but collected and accessible thru $this->getErrors();
 
 ```php
-$email = new EmailAddress("www.github.com", false); //$throw_exceptions on false
+try{
 
-print_r($email->getErrors());
-//Array([0] => error_message)
-```
-Note that when $throw_exceptions is false, $this->error() won't stop the execution.
+    $email = new EmailAddress("www.github.com");
 
-So you may collect multiple exceptions, depending how you did code the validation process.
-This example will collect multiple exceptions if an empty string is given : 
-```php
+catch(CustomDatatypeException $e){ // this will be triggered
 
-use Livaa\CustomDatatypes\CustomDatatype;
-
-class   EmailAddress
-extends CustomDatatype
-{
-    function validate(): void{
-    
-        $this->value = trim($this->value);
-        
-        //this one will be collected
-        if( strlen($this->value) === 0 ){
-            
-            $this->error("email_is_empty");
-        }                
-
-        //this one too
-        if ( !filter_var($value, FILTER_VALIDATE_EMAIL) ){
-            
-           $this->error("email_is_empty");
-        }
-    }
+    echo $e->getMessage(); 
 }
+
 ```
-
-While this example will only collect one
-
+If the datatype is called with the second parameter ($throw_exceptions) to false, the exception(s) won't be throw but collected and accessible thru $this->getErrors();
+Note that in this case, the execution won't be stopped, so the validation process may be collecting multiple exceptions, that's why getErrors() is plural.
 ```php
+try{
 
-use Livaa\CustomDatatypes\CustomDatatype;
-
-class   EmailAddress
-extends CustomDatatype
-{
-    function validate(): void{
+    $email = new EmailAddress("www.github.com", false); //$throw_exceptions is false
     
-        $this->value = trim($this->value);
-        
-        //this one will be collected
-        if( strlen($this->value) === 0 ){
-            
-            $this->error("email_is_empty");
-            
-        }else{                
+    if( !$email->isValid() ){
 
-            //this one won't
-            if ( !filter_var($value, FILTER_VALIDATE_EMAIL) ){
-            
-                $this->error("email_is_malformed");
-            }
-       }
+        $first_error = $email->getErrors()[0];
+
+        echo "an error happened: ".$error->getMessage(); 
     }
+
+catch(CustomDatatypeException $e){ // this won't be triggered
+
+    echo $e->getMessage(); 
 }
+
 ```

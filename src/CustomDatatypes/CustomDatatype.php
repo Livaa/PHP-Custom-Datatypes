@@ -100,9 +100,9 @@ implements      InterfaceCustomDatatype
      * 
      * @return bool
      */
-    function hasErrors(): bool{                
+    function isValid(): bool{                
 
-        return sizeof($this->exceptions) > 0;
+        return sizeof($this->exceptions) === 0;
     }
     
     

@@ -43,7 +43,7 @@ interface InterfaceCustomDatatype
      * 
      * @return bool
      */
-    function hasErrors(): bool;
+    function isValid(): bool;
     
     
     /**
