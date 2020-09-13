@@ -28,7 +28,7 @@ extends CustomDatatype
     
         // - Write here the validation/normalization process.
         // - Don't forget to cast the value to the right type.       
-        // - Call $this->error("email_malformatted"); in case of error
+        // - Call $this->error("error_message"); in case of error
     }
 }
 ```
@@ -56,6 +56,11 @@ class NewsletterManager
     
         // some code to save the email adress
     }
+
+    function unsubscribe(EmailAddress $email_address){
+
+        // some code to remove the email address from the db
+    }
 }
 ```
  
@@ -68,8 +73,8 @@ echo $email->getValue(); // output: sangoku@namek.com
 ```
 
 Thanks to the ____toString()__ method, a custom datatype can behave as a string when needed. 
-(It is important to understand that PDO will trigger it, so you can send directly your datatypes objects without the extra getValue() call inside your prepared requests.
-it does help to make the code a bit cleaner)
+Note that PDO will trigger it, so you can directly send your datatypes objects into your prepared requests.
+
 ```php
 $email  = new EmailAddress("sangoku@namek.com");
 

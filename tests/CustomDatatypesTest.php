@@ -15,25 +15,31 @@ class CustomDatatypesTest extends TestCase
     public function testEmail(){
             
         // --- Check lowercase normalization
-        $email = new EmailAddress("SanGoku@Namek.Com");
+        $email = new EmailAddress("SANGOKU@NAMEK.COM");
                 
         $this->assertSame("sangoku@namek.com", $email->getValue());
         
- 
-                     
-        
-        // --- Check invalid email + disable exception & read error
-        // As it is called with a false argument, it will callect the exceptions
-        // rather than throwing them.  2 exceptions are waited
+                             
+        // --- Check empty email with $throw_exceptions at false
         $email = new EmailAddress("", false);
          
         $this->assertTrue($email->hasErrors());        
-        $this->assertCount(2, $email->getErrors());
+        $this->assertCount(1, $email->getErrors());
         
         $this->assertSame("empty_email", $email->getErrors()[0]->getMessage());
-        $this->assertSame("invalid_email", $email->getErrors()[1]->getMessage());
+        
+        
+        // --- Check invalid email with $throw_exceptions at false
+        $email = new EmailAddress("sangoku.namek.com", false);
+         
+        $this->assertTrue($email->hasErrors());        
+        $this->assertCount(1, $email->getErrors());
+        
+        $this->assertSame("invalid_email", $email->getErrors()[0]->getMessage());
+
     }
     
+  
     
     public function testRgb(){        
         
@@ -43,7 +49,7 @@ class CustomDatatypesTest extends TestCase
         $this->assertSame( json_encode([123,93,60]), $rgb->__toString() );
         
         
-        // --- check wrong rgb channel value + disable exception & read error
+        // --- check wrong rgb channel value with $throw_exceptions at false
         $rgb = new Rgb([123,93,333], false);
         
         $this->assertTrue($rgb->hasErrors());        
@@ -54,7 +60,7 @@ class CustomDatatypesTest extends TestCase
         $this->assertSame("rgb_channel_value_invalid", $exception->getMessage());
         
         
-        // --- Try feeding with a string + disable exception & read error
+        // --- Try feeding with a string with $throw_exceptions at false
         $rgb = new Rgb("123,93,333", false);
         
         $this->assertTrue($rgb->hasErrors());        
