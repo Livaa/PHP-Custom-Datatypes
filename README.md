@@ -2,11 +2,12 @@ PHP Custom Datatypes
 -------------------
 
 - An efficient oriented-object pattern to process the users inputs & to represent the data into your app.
+
 - Does avoid the duplication of your validation & normalization rules.
 - A clear view of all the data that traverse & compose your app, they are part of the app architecture !
-- Data integrity, data integrity and data integrity.
+- Data integrity, data integrity and data integrity. (yeah ... sometimes a bit too much)
 - Force the developper to make a strong use of type hinting with all the benefits that come with it.
-
+  
 The main idea
 -----------------
 Wrap every data into their own relative object.
@@ -42,7 +43,13 @@ $email = isset($_POST['email']) ? new EmailAddress($_POST["email"])
 (new NewsletterManager)->subscribe($email);
 ```
 
-This is what the NewsletterManager class would eventually look like :
+This is what the NewsletterManager class would eventually looks like.
+That's just an example but the idea is now your classes are type-hinted to receive
+custom datatypes objects rather that natives typed variables.
+It does make the code more readable, easier to maintain and secure.
+Also it makes the whole app more reliable as the received values are always good.
+Eventually you'll finally get rid off all those dirty validation processes you have there and there (Utils::iKnowYouKnowWhatImTalkingAbout() !)
+
 
 ```php
 
@@ -52,6 +59,7 @@ class NewsletterManager
 {   
     // Type hinting makes sure the methods receive what they expect.
     // The code is more reliable.
+
     function subscribe(EmailAddress $email_address):bool{ 
     
         // some code to save the email adress
