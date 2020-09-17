@@ -1,21 +1,20 @@
 PHP Custom Datatypes
 -------------------
 
-- An efficient oriented-object pattern to process the users inputs & to represent the data into your app.
-
+- An efficient __oriented-object pattern__ to process the users inputs & to represent the data into your app.
 - Does avoid the duplication of your validation & normalization rules.
 - A clear view of all the data that traverse & compose your app, they are part of the app architecture !
-- Data integrity, data integrity and data integrity. (yeah ... sometimes a bit too much)
-- Force the developper to make a strong use of type hinting with all the benefits that come with it.
+- Data integrity, data integrity and data integrity. 
+- Force the developper to make a strong use of __type hinting__ with all the benefits that come with it.
   
 The main idea
 -----------------
-Wrap every data into their own relative object.
-An age, an url, a city, a login, a height, a width, an rgb color, an id, ... type them all !
+Every each data must be wrap into it's own relative object.
+An age, an url, a city, a login, a height, a width, an rgb color, an id... type them all !
 
 How to use ?
 ---------------
-To build a datatype just extend Livaa\CustomDatatypes\CustomDatatype and write the validate() method.
+To build a custom datatype just extend Livaa\CustomDatatypes\CustomDatatype and write the validate() method.
 
 ```php
 namespace Foo\Types;
@@ -27,8 +26,7 @@ extends CustomDatatype
 {
     function validate(): void{
     
-        // - Write here the validation/normalization process.
-        // - Don't forget to cast the value to the right type.       
+        // - Write here the validation/normalization process.      
         // - Call $this->error("error_message"); in case of error
     }
 }
@@ -43,13 +41,11 @@ $email = isset($_POST['email']) ? new EmailAddress($_POST["email"])
 (new NewsletterManager)->subscribe($email);
 ```
 
-This is what the NewsletterManager class would eventually looks like.
-That's just an example but the idea is now your classes are type-hinted to receive
-custom datatypes objects rather that natives typed variables.
+This is what the NewsletterManager class would eventually looks like.\
+That's just an example but the idea is to type-hint your classes to receive custom datatypes objects rather that natives typed variables.
 It does make the code more readable, easier to maintain and secure.
 Also it makes the whole app more reliable as the received values are always good.
 Eventually you'll finally get rid off all those dirty validation processes you have there and there (Utils::iKnowYouKnowWhatImTalkingAbout() !)
-
 
 ```php
 
@@ -80,35 +76,37 @@ $email  = new EmailAddress("sangoku@namek.com");
 echo $email->getValue(); // output: sangoku@namek.com
 ```
 
-Thanks to the ____toString()__ method, a custom datatype can behave as a string when needed. 
-Note that PDO will trigger it, so you can directly send your datatypes objects into your prepared requests.
+Thanks to the ____toString()__ method, a custom datatype can behave as a string when needed.\
+Note that PDO will trigger the __toString()__ method, so you can directly send your datatypes objects into your prepared requests.
 
 ```php
-$email  = new EmailAddress("sangoku@namek.com");
 
-echo $email; // sangoku@namek.com, __toString() was triggered
-is_string($email); // false, is an EmailAddress object
-is_string($email->getValue()); // true
+// let's say we have an EmailAddress, a Rgb and an Energy custom datatypes
 
-$age = new Age(34); 
+$email        = new EmailAddress("sangoku@namek.com"); 
+$hair_color   = new Rgb([34,54,93]); // This one wants an array
+$energy_left  = new Energy(12); // obviously this one wants an int
 
-echo $age; // 34 as string because echo triggered __toString()
-echo "his age is".$age; // his age is 34. Concatenation triggered __toString()
-is_string($age); //false, is an Age object
-is_int($age); //false, same reason
-is_int($age->getValue()); // true
+echo $email; 
+output: sangoku@namek.com
 
-// But don't be confuse !
-echo $email == "sangoku@namek.com" ? true : false; // -> true
-echo $email === "sangoku@namek.com" ? true : false; // -> false
-echo $email->getValue() == "sangoku@namek.com" ? true : false; // -> true
-echo $email->getValue() === "sangoku@namek.com" ? true : false; // -> true
+echo $hair_color;
+output: {34,54,93} 
+
+echo $energy_left;
+output: 12 as a string
+
+// but don't be confuse !
+$email == "sangoku@namek.com" -> true
+$email === "sangoku@namek.com" -> false
+$email->getValue() == "sangoku@namek.com"  -> true
+$email->getValue() === "sangoku@namek.com" -> true
 ```
-If you find this a bit mind boggling, just remember that calling getValue() is the right way to do.
+If you find this a bit mind boggling, just remember to use getValue() everytime except 
 
 
 Keep it simple, avoid writing more methods into your datatypes.
-They are just supposed to verify and represent the value it does encapsulate, nothing else.        
+They are just supposed to __verify__ and __represent__ the value it does encapsulate, nothing else.        
 ```php
 namespace Foo\Types;
 
