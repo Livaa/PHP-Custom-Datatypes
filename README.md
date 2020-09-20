@@ -1,3 +1,5 @@
+Install : ```composer require livaa/custom-datatypes```
+
 PHP Custom Datatypes
 -------------------
 
