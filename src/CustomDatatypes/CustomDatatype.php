@@ -30,7 +30,7 @@ implements      InterfaceCustomDatatype
      * @param mixed $value The value to encapsulate.
      * @param bool $throw_exceptions Enable/disable exceptions during the validation process. True by default.
      */
-    function __construct($value = null, bool $throw_exceptions = true){
+    function __construct($value = null, $throw_exceptions = true){
         
         $this->value             = $value;
         $this->throw_exceptions  = $throw_exceptions;
