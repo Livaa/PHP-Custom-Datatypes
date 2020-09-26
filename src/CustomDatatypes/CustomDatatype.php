@@ -6,7 +6,7 @@ abstract class  CustomDatatype
 implements      InterfaceCustomDatatype
 {   
     
-    protected
+    public
                     
         /**
          * @var mixed $value
