@@ -9,12 +9,22 @@ implements      InterfaceCustomDatatype
     public
                     
         /**
+         * Represents the encapsulated value.
+         * It has a getter, getValue(), that i personaly 
+         * prefer to use in my code. But to have it into
+         * the public scope makes sense as the object can 
+         * be programaticaly called by reflection
+         * or get_object_vars() and so ...
+         *
          * @var mixed $value
          */
         $value,
             
-            
+    protected
+        
         /**
+         * Enable/Disable exceptions throwing.
+         *
          * @var bool $throw_exceptions 
          */
         $throw_exceptions,            
@@ -50,11 +60,9 @@ implements      InterfaceCustomDatatype
      
      
     /**
-     * - Build a new CustomDatatypeException from the given error & the debug_trace() details.
-     * - Log the exception on the logs of the server ($this->logError()).
-     * - Throws the exception if $this->throw_exceptions is true.    
-     * - Push the exception into $this->exceptions[] if $this->throw_exceptions is false.
-     * 
+     * Log the exception details into the server logs then 
+     * throw the exception or collect it.
+     *
      * @param string $error
      * @throws CustomDatatypeException
      * 
