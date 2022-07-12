@@ -70,9 +70,8 @@ implements      InterfaceCustomDatatype
      */
     function error(string $error): void{        
 
-        $trace           = debug_backtrace(); 
-        $source_error    = array_pop($trace);
-        $exception       = New CustomDatatypeException($error, $source_error["file"], $source_error["line"]);                
+        $trace           = json_encode(debug_backtrace()); 
+        $exception       = New CustomDatatypeException($error, $trace);                
   
         $this->logError($exception);
 
